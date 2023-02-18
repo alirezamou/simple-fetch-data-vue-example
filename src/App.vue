@@ -1,8 +1,22 @@
 <script>
+const BASE_API_URL = "https://api.github.com/repos/vuejs/core/commits?per_page=3&sha=";
 export default {
   data() {
     return {
-      currentBranch: "main"
+      currentBranch: "main",
+      commits: null
+    }
+  },
+  created() {
+    this.fetchData();
+  },
+  methods: {
+    fetchData () {
+      const url = `${BASE_API_URL}${this.currentBranch}`;
+      fetch(url)
+      .then(res => res.json())
+      .then(data => this.commits = data)
+      .catch(err => console.log(err));
     }
   }
 }
@@ -22,10 +36,11 @@ export default {
       </div>
     </div>
     <div class="commits-container">
-      <p>vuejs/vue@main</p>
+      <p>vuejs/vue@{{ currentBranch }}</p>
       <ul>
-        <li>commit 1</li>
-        <li>commit 1</li>
+        <li class="commit" v-for="{ sha, html_url } in commits">
+          <a target="_blank" class="commit__link" :href="html_url">{{ sha.slice(0, 7) }}</a>
+        </li>
       </ul>
     </div>
   </div>
@@ -58,6 +73,23 @@ export default {
 
 .heading {
   font-weight: bold;
+}
+
+.commit__link {
+  text-decoration: none;
+  color: cyan;
+}
+
+.commit__link:visited {
+  color: purple;
+}
+
+.commit__link:hover {
+  color: blue;
+}
+
+.commit__link:visited:hover {
+  color: purple;
 }
 
 </style>
