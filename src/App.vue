@@ -17,6 +17,9 @@ export default {
       .then(res => res.json())
       .then(data => this.commits = data)
       .catch(err => console.log(err));
+    },
+    formatDate (v) {
+      return v.replace(/Z|T/g, ' ');
     }
   }
 }
@@ -41,7 +44,8 @@ export default {
         <li class="commit" v-for="{ sha, html_url, commit } in commits">
           <a target="_blank" class="commit__link" :href="html_url">{{ sha.slice(0, 7) }}</a> - <span>{{ commit?.message }}</span>
           <br />
-          <a target="_blank" class="author" :href="commit?.author?.email">{{ commit?.author?.name }}</a>
+          by <a target="_blank" class="author" :href="commit?.author?.email">{{ commit?.author?.name }}</a>
+          at <span>{{ formatDate(commit?.author?.date) }}</span>
         </li>
       </ul>
     </div>
