@@ -21,6 +21,9 @@ export default {
     formatDate (v) {
       return v.replace(/Z|T/g, ' ');
     }
+  },
+  watch: {
+    currentBranch: "fetchData"
   }
 }
 </script>
