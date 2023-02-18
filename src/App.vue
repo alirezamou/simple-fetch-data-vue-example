@@ -38,8 +38,10 @@ export default {
     <div class="commits-container">
       <p>vuejs/vue@{{ currentBranch }}</p>
       <ul>
-        <li class="commit" v-for="{ sha, html_url } in commits">
-          <a target="_blank" class="commit__link" :href="html_url">{{ sha.slice(0, 7) }}</a>
+        <li class="commit" v-for="{ sha, html_url, commit } in commits">
+          <a target="_blank" class="commit__link" :href="html_url">{{ sha.slice(0, 7) }}</a> - <span>{{ commit?.message }}</span>
+          <br />
+          <a target="_blank" class="author" :href="commit?.author?.email">{{ commit?.author?.name }}</a>
         </li>
       </ul>
     </div>
@@ -75,20 +77,24 @@ export default {
   font-weight: bold;
 }
 
-.commit__link {
+.commit {
+  margin-bottom: 1rem;
+}
+
+.commit__link, .author {
   text-decoration: none;
   color: cyan;
 }
 
-.commit__link:visited {
+.commit__link:visited, .author:visited {
   color: purple;
 }
 
-.commit__link:hover {
+.commit__link:hover, .author:hover {
   color: blue;
 }
 
-.commit__link:visited:hover {
+.commit__link:visited:hover, .author:visited:hover {
   color: purple;
 }
 
